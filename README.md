@@ -1,32 +1,36 @@
-# CoronaSafe Engineering Fellowship Test Problem
+# Global Digital Corps - Software Engineering Test Problem | Priority list
 
-Thanks for applying to the CoronaSafe Engineering fellowship!
 
-In this step we want to see how you implement a command-line (CLI) program that lets you manage your todos.
+In this step we want to see how you implement a command-line (CLI) program that lets you manage your tasks.
 
 The specification for this problem is written down as tests. Since we haven’t actually implemented anything, the tests are currently failing. You have to solve the problem by implementing the application and getting all the tests to pass.
 
 Here's how it should work when you're done:
 
-[![Todo-CLI](https://res.cloudinary.com/sv-co/image/upload/v1607935139/fullstack-CEF/Todo-CLI/play-video-demo_fp50wp.png)](https://vimeo.com/490621534)
+[![TASK-CLI](https://res.cloudinary.com/sv-co/image/upload/v1638058186/GDC/SE/Admission/gdc-home-page_b6s3go.png)](https://vimeo.com/648902045)
+or
+alternate url- https://drive.google.com/file/d/1YEbJOjpsIXEhsaFZhbgB5ACr0Ca2l0TR/view?usp=sharing
+
 ## Getting started
 
-1. Install Node.js: You need to have npm installed in your computer for this problem. It comes with Node.js and you can get it by installing Node from https://nodejs.org/en/
+1. Install Java: You should setup java environment with build utils to complete this task.
 
-2. You are expected to write the code in `todo.js` file.
+2. You are expected to write the code in `Task.java` file.
 
-3. Once you are done with the changes you should be able to execute the todo app by running the following command from the terminal.
+3. You should be able to build the app by running `make task`.
+
+4. Once you are done with the changes you should be able to execute the task app by running the following command from the terminal.
 
    **On Windows:**
 
    ```
-   .\todo.bat
+   .\task.bat
    ```
 
    **On \*nix:**
 
    ```
-   ./todo.sh
+   ./task.sh
    ```
 ## Run Automated Tests
 
@@ -47,13 +51,13 @@ To create a symbolic link on Windows, you'll need to run either the Windows Comm
 **Command Prompt:**
 
 ```
-> mklink todo todo.bat
+> mklink task task.bat
 ```
 
 **Powershell:**
 
 ```
-> cmd /c mklink todo todo.bat
+> cmd /c mklink task task.bat
 ```
 
 #### On \*nix:
@@ -61,7 +65,7 @@ To create a symbolic link on Windows, you'll need to run either the Windows Comm
 Run the following command in your shell:
 
 ```
-$ ln -s todo.sh todo
+$ ln -s task.sh task
 ```
 
 ### 4. Try running tests.
@@ -76,115 +80,158 @@ If you're using the Windows _Command Prompt_, then you'll need to replace `/` wi
 
 On Windows _Powershell_, these substitutions are not required.
 
+## Known Issues
+
+A few notes to help you avoid any hiccups while implementing the programming challenge:
+
+1. If you are on Windows, you might have difficulty getting the tests to pass because of newline UTF encoding issues. If you get stuck, please [refer to the thread here](https://github.com/nseadlc-2020/package-todo-cli-task/issues/12).
+
+2. In Windows machines, the `make` command might not exist and can prevent you from running the tests. This can be fixed [by using WSL, or installing MinGW, among other options](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows).
+
 ## Specification
 
-1. The app can be run in the console with `./todo`.
+1. The app can be run in the console with `./task`.
 
-2. The app should read from and write to a `todo.txt` text file. Each todo item occupies a single line in this file. Here is an example file that has 2 todo items.
+2. The app should read from and write to a task.txt text file. Each task occupies a single line in this file. Each line in the file should be in this format :
 
-```txt
-water the plants
-change light bulb
-```
+   ```
+   p task
+   ```
 
-3.  When a todo item is completed, it should be removed from `todo.txt` and instead added to the `done.txt` text file. This file has a different format:
+   where `p` is the priority ( priority will be a number) and `task` is the task description.
 
-    ```txt
-    x 2020-06-12 the text contents of the todo item
-    ```
+   > Priority denotes how important a task is, if it is a high priority task, it should be completed earlier. Priority is denoted using an integer, the lower the number, the higher the priority.
 
-    1. the letter x
-    2. the current date in `yyyy-mm-dd` format
-    3. the original text
+   Here is an example file that has 2 items.
 
-    The date when the todo is marked as completed is recorded in the `yyyy-mm-dd` format (ISO 8601). For example, a date like `15th August, 2020` is represented as `2020-08-15`.
+   ```
+   1 Buy milk
+   2 Complete the project
+   ```
 
-4.  The application must open the files `todo.txt` and `done.txt` from where the app is run, and not where the app is located. For example, if we invoke the app like this:
+3. Completed task are writted to a completed.txt file. Each task occupies a single line in this file. Each line in the file should be in this format :
 
-    ```
-    $ cd /path/to/plans
-    $ /path/to/apps/todo ls
-    ```
+   ```
+   task
+   ```
 
-    The application should look for the text files in `/path/to/plans`, since that is the user’s current directory.
+   where task is the task description.
+
+   Here is an example file that has 2 items.
+
+   ```
+   Buy milk
+   Complete the project
+   ```
+
+4. Priority can be any integer _greater than_ or _equal to_ 0. 0 being the highest priority
+
+5. If two task have the same priority, the task that was added first should be displayed first.
+
+   The application must open the files task.txt and completed.txt from where the app is run, and not where the app is located. For example, if we invoke the app like this:
+
+6. The files should always be sorted in order of the priority, ie, the task with the highest priority should be first item in the file.
+
+   ```
+   $ cd /path/to/plans
+
+   $ /path/to/apps/task ls
+   ```
+
+   The application should look for the text files in `/path/to/plans`, since that is the user’s current directory.
+   
+> Please note that the programming task could be completed without the use of any additional packages
 
 ## Usage
 
 ### 1. Help
 
-Executing the command without any arguments, or with a single argument `help` prints the CLI usage.
+Executing the command without any arguments, or with a single argument help prints the CLI usage.
 
 ```
-$ ./todo help
+$ ./task help
 Usage :-
-$ ./todo add "todo item"  # Add a new todo
-$ ./todo ls               # Show remaining todos
-$ ./todo del NUMBER       # Delete a todo
-$ ./todo done NUMBER      # Complete a todo
-$ ./todo help             # Show usage
-$ ./todo report           # Statistics
+$ ./task add 2 hello world    # Add a new item with priority 2 and text "hello world" to the list
+$ ./task ls                   # Show incomplete priority list items sorted by priority in ascending order
+$ ./task del INDEX            # Delete the incomplete item with the given index
+$ ./task done INDEX           # Mark the incomplete item with the given index as complete
+$ ./task help                 # Show usage
+$ ./task report               # Statistics
 ```
 
-### 2. List all pending todos
+### 2. List all pending items
 
-Use the `ls` command to see all the todos that are not yet complete. The most recently added todo should be displayed first.
+Use the ls command to see all the items that are not yet complete, in ascending order of priority.
 
-```
-$ ./todo ls
-[2] change light bulb
-[1] water the plants
-```
-
-### 3. Add a new todo
-
-Use the `add` command. The text of the todo item should be enclosed within double quotes (otherwise only the first word is considered as the todo text, and the remaining words are treated as different arguments).
+Every item should be printed on a new line. with the following format
 
 ```
-$ ./todo add "the thing i need to do"
-Added todo: "the thing i need to do"
+[index] [task] [priority]
 ```
 
-### 4. Delete a todo item
-
-Use the `del` command to remove a todo item by its number.
+Example:
 
 ```
-$ ./todo del 3
-Deleted todo #3
+$ ./task ls
+1. change light bulb [2]
+2. water the plants [5]
 ```
 
-Attempting to delete a non-existent todo item should display an error message.
+index starts from 1, this is used to identify a particular task to complete or delete it.
+
+### 3. Add a new item
+
+Use the add command. The text of the task should be enclosed within double quotes (otherwise only the first word is considered as the item text, and the remaining words are treated as different arguments).
 
 ```
-$ ./todo del 5
-Error: todo #5 does not exist. Nothing deleted.
+$ ./task add 5 "the thing i need to do"
+Added task: "the thing i need to do" with priority 5
 ```
 
-### 5. Mark a todo item as completed
+### 4. Delete an item
 
-Use the `done` command to mark a todo item as completed by its number.
-
-```
-$ ./todo done 1
-Marked todo #1 as done.
-```
-
-Attempting to mark a non-existed todo item as completed will display an error message.
+Use the del command to remove an item by its index.
 
 ```
-$ ./todo done 5
-Error: todo #5 does not exist.
+$ ./task del 3
+Deleted item with index 3
+```
+
+Attempting to delete a non-existent item should display an error message.
+
+```
+$ ./task del 5
+Error: item with index 5 does not exist. Nothing deleted.
+```
+
+### 5. Mark a task as completed
+
+Use the done command to mark an item as completed by its index.
+
+```
+$ ./task done 1
+Marked item as done.
+```
+
+Attempting to mark a non-existed item as completed will display an error message.
+
+```
+$ ./task done 5
+Error: no incomplete item with index 5 exists.
 ```
 
 ### 6. Generate a report
 
-Use the `report` command to see the latest tally of pending and completed todos.
+Show the number of complete and incomplete items in the list. and the complete and incomplete items grouped together.
 
 ```
-$ ./todo report
-yyyy-mm-dd Pending : 1 Completed : 4
-```
+$ ./task report
+Pending : 2
+1. this is a pending task [1]
+2. this is a pending task with priority [4]
 
-### My Results
-Program runs @ 6.936(approx 7)seconds in Ubuntu 20.04
-![image](https://user-images.githubusercontent.com/76088773/104048254-ee876a00-5208-11eb-97cb-fee59574f38f.png)
+Completed : 3
+1. completed task
+2. another completed task
+3. yet another completed task
+```
